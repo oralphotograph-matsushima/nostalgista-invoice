@@ -3,110 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nostalgista Business Manager V4</title>
+<title>Nostalgista Business Suite V4</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#1a1a1a;--ink2:#555;--accent:#2d5a3d;--accent-bg:#eef3ef;
-  --paper:#faf9f7;--warn:#c0392b;--safe:#27ae60;--r:10px;
+  --ink:#1a1a1a;--ink2:#555;--ink3:#999;
+  --paper:#faf9f7;--paper2:#f3f1ee;--paper3:#e8e5df;
+  --accent:#2d5a3d;--accent2:#4a7c5e;--warn:#c0392b;--r:8px;
 }
-body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--ink);padding:16px;max-width:800px;margin:0 auto}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;padding:16px;max-width:720px;margin:0 auto}
 
-/* Tab System */
-.tabs{display:flex;gap:4px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px}
-.tab-btn{padding:10px 16px;border:none;background:#e0e0e0;border-radius:var(--r);cursor:pointer;font-size:13px;white-space:nowrap;transition:0.3s}
+/* Header & Tabs */
+header{margin-bottom:24px}
+h1.app-title{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:300;color:var(--accent);letter-spacing:0.12em;margin-bottom:2px}
+.app-sub{font-size:11px;color:var(--ink3);letter-spacing:0.05em}
+
+.tabs{display:flex;gap:4px;margin:20px 0;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.tab-btn{padding:10px 18px;border:none;background:var(--paper2);color:var(--ink2);border-radius:20px;cursor:pointer;font-size:12px;white-space:nowrap;transition:0.3s;font-weight:500}
 .tab-btn.active{background:var(--accent);color:white}
-.content-section{display:none;background:white;padding:20px;border-radius:var(--r);box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+
+.content-section{display:none;animation:fadeIn 0.4s ease forwards}
 .content-section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* Card Design */
+.card{background:white;padding:24px;border-radius:var(--r);box-shadow:0 4px 15px rgba(0,0,0,0.03);margin-bottom:20px}
+h3.section-title{font-family:'Noto Serif JP',serif;font-size:16px;margin-bottom:18px;color:var(--accent);border-bottom:1px solid var(--paper2);padding-bottom:8px}
 
 /* Form Styling */
-.form-group{margin-bottom:15px}
-label{display:block;font-size:12px;color:var(--ink2);margin-bottom:4px;font-weight:500}
-input, select, textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:var(--r);font-size:15px}
+.f-group{margin-bottom:16px}
+label{display:block;font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600}
+input, select, textarea{width:100%;padding:14px;border:1px solid var(--paper3);border-radius:var(--r);font-size:14px;background:var(--paper);color:var(--ink);transition:0.2s}
+input:focus{outline:none;border-color:var(--accent2);background:white}
 
-/* Master Table */
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-th, td{padding:12px;border-bottom:1px solid #eee;text-align:left}
-th{background:var(--accent-bg);color:var(--accent)}
+/* Tables */
+.table-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:12px;color:var(--accent);font-weight:600;border-bottom:2px solid var(--accent)}
+td{padding:12px;border-bottom:1px solid var(--paper2)}
 
-/* Profit Card */
-.profit-card{background:var(--accent-bg);padding:20px;border-radius:var(--r);margin-top:20px}
-.profit-val{font-size:24px;font-weight:600;color:var(--accent)}
-.rate-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:10px}
-.low-profit{background:#f8d7da;color:#721c24}
-.high-profit{background:#d4edda;color:#155724}
+/* Profit Display */
+.profit-display{background:var(--accent);color:white;padding:20px;border-radius:var(--r);text-align:center}
+.profit-val{font-size:32px;font-family:'Noto Serif JP';font-weight:600;margin:10px 0}
+.profit-meta{font-size:12px;opacity:0.8}
 
-@media print{.no-print{display:none}}
+.btn-main{background:var(--accent);color:white;border:none;padding:16px;border-radius:var(--r);width:100%;font-weight:600;cursor:pointer;margin-top:10px;box-shadow:0 4px 10px rgba(45,90,61,0.2)}
+.btn-sub{background:none;border:1px solid var(--paper3);padding:10px;border-radius:var(--r);width:100%;font-size:12px;color:var(--ink2);cursor:pointer}
+
+@media print{.no-print{display:none}body{background:white;padding:0}.card{box-shadow:none;padding:0}}
 </style>
 </head>
 <body>
 
 <header class="no-print">
-  <h1 style="font-family:'Noto Serif JP'; color:var(--accent); margin-bottom:10px;">Nostalgista Management</h1>
+  <h1 class="app-title">Nostalgista</h1>
+  <p class="app-sub">Business Management Suite V4</p>
+  
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('invoice')">書類作成</button>
-    <button class="tab-btn" onclick="switchTab('profit')">原価・利益管理</button>
-    <button class="tab-btn" onclick="switchTab('master')">商品価格マスター</button>
+    <button class="tab-btn" onclick="switchTab('profit')">利益シミュレーション</button>
+    <button class="tab-btn" onclick="switchTab('master')">価格マスター設定</button>
   </div>
 </header>
 
 <section id="invoice" class="content-section active">
-  <h3>書類発行</h3>
-  <div class="form-group">
-    <label>顧客名</label>
-    <input type="text" id="clientName" placeholder="〇〇歯科医院 御中">
-  </div>
-  <div class="form-group">
-    <label>選択商品</label>
-    <select id="productSelect" onchange="applyMasterPrice()">
-      <option value="">商品を選択してください</option>
+  <div class="card">
+    <h3 class="section-title">基本情報</h3>
+    <div class="f-group">
+      <label>宛名</label>
+      <input type="text" id="clientName" placeholder="〇〇歯科医院 御中">
+    </div>
+    <div class="f-group">
+      <label>商品選択（マスターから引用）</label>
+      <select id="productSelect" onchange="applyMaster()">
+        <option value="">商品を選択してください</option>
       </select>
+    </div>
+    <div class="f-group">
+      <label>件名 / 金額</label>
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:10px;">
+        <input type="text" id="itemName" placeholder="製品名">
+        <input type="number" id="itemPrice" placeholder="金額">
+      </div>
+    </div>
   </div>
-  <button onclick="window.print()" style="background:var(--accent); color:white; border:none; padding:12px 24px; border-radius:var(--r); width:100%;">PDFを発行する</button>
+  
+  <div class="no-print" style="text-align:center;">
+    <button class="btn-main" onclick="window.print()">PDFをプレビュー・発行</button>
+    <p style="font-size:10px; color:var(--ink3); margin-top:15px;">※印刷プレビューで「PDFとして保存」を選択してください</p>
+  </div>
 </section>
 
 <section id="profit" class="content-section">
-  <h3>利益シミュレーション</h3>
-  <div class="form-group">
-    <label>販売価格 (税込)</label>
-    <input type="number" id="salePrice" oninput="calcProfit()">
-  </div>
-  <div class="form-group">
-    <label>仕入原価 (税込合計)</label>
-    <input type="number" id="costPrice" oninput="calcProfit()">
-  </div>
-  <div class="form-group">
-    <label>決済手数料 (BASE等の場合 %) </label>
-    <input type="number" id="feeRate" value="6.6" oninput="calcProfit()">
-  </div>
-  
-  <div class="profit-card">
-    <p>推定純利益</p>
-    <div class="profit-val" id="netProfit">¥0</div>
-    <p style="font-size:12px; margin-top:10px;">利益率: <span id="profitRate">0</span>% <span id="profitStatus" class="rate-badge">--</span></p>
+  <div class="card">
+    <h3 class="section-title">収支分析</h3>
+    <div class="f-group">
+      <label>販売価格 (税込)</label>
+      <input type="number" id="calcSale" oninput="runCalc()">
+    </div>
+    <div class="f-group">
+      <label>仕入原価 (税込合計)</label>
+      <input type="number" id="calcCost" oninput="runCalc()">
+    </div>
+    <div class="f-group">
+      <label>決済手数料 (%) ※BASEは通常6.6</label>
+      <input type="number" id="calcFee" value="6.6" oninput="runCalc()">
+    </div>
+    
+    <div class="profit-display">
+      <p class="profit-meta">推定純利益</p>
+      <div class="profit-val" id="resProfit">¥0</div>
+      <p class="profit-meta">利益率: <span id="resRate">0</span>%</p>
+    </div>
   </div>
 </section>
 
 <section id="master" class="content-section">
-  <h3>商品価格マスター変更</h3>
-  <p style="font-size:11px; margin-bottom:10px;">※ここでの変更はブラウザに保存されます</p>
-  <table id="masterTable">
-    <thead>
-      <tr><th>商品名</th><th>定価(税込)</th><th>標準原価</th><th>操作</th></tr>
-    </thead>
-    <tbody id="masterBody">
-      </tbody>
-  </table>
-  <button onclick="addMasterRow()" style="margin-top:10px; padding:8px; border:1px dashed var(--accent); background:none; width:100%; border-radius:var(--r);">+ 新しい商品を追加</button>
+  <div class="card">
+    <h3 class="section-title">価格マスター変更</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>商品名</th><th>定価</th><th>原価</th><th></th></tr>
+        </thead>
+        <tbody id="masterList"></tbody>
+      </table>
+    </div>
+    <button class="btn-sub" style="margin-top:16px;" onclick="addRow()">+ 新規商品を追加</button>
+  </div>
 </section>
 
 <script>
-// 初期データ
-let products = JSON.parse(localStorage.getItem('nosta_products')) || [
-  {name: "SurgiFlip | Canon EOS RP", price: 253000, cost: 160000},
-  {name: "Light RING II Flip | G99II", price: 198000, cost: 120000},
-  {name: "Esthetic Pro | Canon R10", price: 308000, cost: 200000}
+let products = JSON.parse(localStorage.getItem('nosta_v4_data')) || [
+  {name: "SurgiFlip | Canon EOS RP", price: 253000, cost: 165000},
+  {name: "Light RING II Flip | G99II", price: 198000, cost: 125000},
+  {name: "Esthetic Pro | Canon R10", price: 308000, cost: 210000}
 ];
 
 function switchTab(id) {
@@ -114,77 +146,68 @@ function switchTab(id) {
   document.getElementById(id).classList.add('active');
   event.currentTarget.classList.add('active');
   if(id === 'master') renderMaster();
-  if(id === 'invoice') updateProductDropdown();
+  if(id === 'invoice') updateDropdown();
+}
+
+function updateDropdown() {
+  const sel = document.getElementById('productSelect');
+  sel.innerHTML = '<option value="">商品を選択</option>' + 
+    products.map(p => `<option value="${p.price}" data-name="${p.name}" data-cost="${p.cost}">${p.name}</option>`).join('');
+}
+
+function applyMaster() {
+  const sel = document.getElementById('productSelect');
+  const opt = sel.options[sel.selectedIndex];
+  if(!opt.value) return;
+  document.getElementById('itemName').value = opt.dataset.name;
+  document.getElementById('itemPrice').value = opt.value;
+  // 利益タブにも連動
+  document.getElementById('calcSale').value = opt.value;
+  document.getElementById('calcCost').value = opt.dataset.cost;
+  runCalc();
 }
 
 function renderMaster() {
-  const body = document.getElementById('masterBody');
-  body.innerHTML = products.map((p, i) => `
+  const list = document.getElementById('masterList');
+  list.innerHTML = products.map((p, i) => `
     <tr>
-      <td><input type="text" value="${p.name}" onchange="updateMaster(${i}, 'name', this.value)"></td>
-      <td><input type="number" value="${p.price}" onchange="updateMaster(${i}, 'price', this.value)"></td>
-      <td><input type="number" value="${p.cost}" onchange="updateMaster(${i}, 'cost', this.value)"></td>
-      <td><button onclick="deleteMaster(${i})" style="color:var(--warn); border:none; background:none;">削除</button></td>
+      <td><input type="text" value="${p.name}" onchange="edit(${i},'name',this.value)"></td>
+      <td><input type="number" value="${p.price}" onchange="edit(${i},'price',this.value)"></td>
+      <td><input type="number" value="${p.cost}" onchange="edit(${i},'cost',this.value)"></td>
+      <td><button onclick="del(${i})" style="border:none;background:none;color:var(--warn)">×</button></td>
     </tr>
   `).join('');
 }
 
-function updateMaster(i, key, val) {
-  products[i][key] = key === 'name' ? val : Number(val);
-  localStorage.setItem('nosta_products', JSON.stringify(products));
+function edit(i, k, v) {
+  products[i][k] = k === 'name' ? v : Number(v);
+  save();
 }
 
-function addMasterRow() {
-  products.push({name: "新商品", price: 0, cost: 0});
+function addRow() {
+  products.push({name:"新商品", price:0, cost:0});
   renderMaster();
 }
 
-function deleteMaster(i) {
-  if(confirm('削除しますか？')) {
-    products.splice(i, 1);
-    renderMaster();
-    localStorage.setItem('nosta_products', JSON.stringify(products));
-  }
+function del(i) {
+  if(confirm('削除しますか？')) { products.splice(i,1); renderMaster(); save(); }
 }
 
-function updateProductDropdown() {
-  const sel = document.getElementById('productSelect');
-  sel.innerHTML = '<option value="">商品を選択</option>' + products.map(p => `<option value="${p.price}" data-cost="${p.cost}">${p.name}</option>`).join('');
+function save() { localStorage.setItem('nosta_v4_data', JSON.stringify(products)); }
+
+function runCalc() {
+  const s = Number(document.getElementById('calcSale').value || 0);
+  const c = Number(document.getElementById('calcCost').value || 0);
+  const f = Number(document.getElementById('calcFee').value || 0) / 100;
+  const profit = s - c - (s * f);
+  const rate = s > 0 ? (profit / s) * 100 : 0;
+  document.getElementById('resProfit').textContent = "¥" + Math.floor(profit).toLocaleString();
+  document.getElementById('resRate').textContent = rate.toFixed(1);
 }
 
-function applyMasterPrice() {
-  const sel = document.getElementById('productSelect');
-  const opt = sel.options[sel.selectedIndex];
-  if(!opt.value) return;
-  document.getElementById('salePrice').value = opt.value;
-  document.getElementById('costPrice').value = opt.dataset.cost;
-  calcProfit();
-}
-
-function calcProfit() {
-  const sale = Number(document.getElementById('salePrice').value || 0);
-  const cost = Number(document.getElementById('costPrice').value || 0);
-  const feeRate = Number(document.getElementById('feeRate').value || 0) / 100;
-  
-  const fee = sale * feeRate;
-  const netProfit = sale - cost - fee;
-  const rate = sale > 0 ? (netProfit / sale) * 100 : 0;
-  
-  document.getElementById('netProfit').textContent = "¥" + Math.floor(netProfit).toLocaleString();
-  document.getElementById('profitRate').textContent = rate.toFixed(1);
-  
-  const status = document.getElementById('profitStatus');
-  if(rate < 25) {
-    status.textContent = "低利益率・要改善";
-    status.className = "rate-badge low-profit";
-  } else {
-    status.textContent = "健全";
-    status.className = "rate-badge high-profit";
-  }
-}
-
-// 初期実行
-updateProductDropdown();
+// 初期化
+updateDropdown();
 </script>
+
 </body>
 </html>
